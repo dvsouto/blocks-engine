@@ -4,31 +4,17 @@
 #include <iostream>
 
 namespace Core {
-  LayerManager* LayerManager::instance = nullptr;
-
-  LayerManager::LayerManager() {}
-
-  LayerManager* LayerManager::getInstance() {
-    if (instance == nullptr) {
-      instance = new LayerManager();
-    }
-
-    return instance;
-  }
-
   void LayerManager::initialize(){}
 
-  void LayerManager::addLayer(std::shared_ptr<Graphics::Layer> layer) {
-    layers.push_back(layer);
-  }
+  void LayerManager::renderLayers() const {
+    for(const auto& layerPair : this->layers){
+      auto& itLayer = layerPair.second;
 
-  void LayerManager::renderLayers(){
-    for(std::shared_ptr<Graphics::Layer> layer : this->layers){
-      if (! layer->isVisible()) {
+      if (! itLayer->isVisible()) {
         continue;
       }
 
-      layer->render();
+      itLayer->render();
     }
   }
 }

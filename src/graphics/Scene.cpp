@@ -2,6 +2,10 @@
 #include "include/graphics/Layer.h"
 
 namespace Graphics {
+   Scene::Scene() : layers() {
+     layers.initialize();
+   }
+
   bool Scene::isLoaded() const {
     return this->loaded;
   }
@@ -16,13 +20,11 @@ namespace Graphics {
     this->loaded = false;
   }
 
-  void Scene::addLayer(const std::shared_ptr<Layer> &layer) {
-    this->layers.push_back(layer);
-  }
+  // void Scene::addLayer(const std::shared_ptr<Layer> &layer) {
+  //   this->layers.push_back(layer);
+  // }
 
   void Scene::render() const {
-    for (const auto& layer : this->layers) {
-      layer->render();
-    }
+    this->layers.renderLayers();
   }
 }

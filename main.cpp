@@ -17,7 +17,7 @@ int main() {
   renderer->initialize(window);
   sceneManager->initialize();
 
-  sceneManager->addScene(std::make_shared<Scenes::TestScene>(Scenes::TestScene()));
+  sceneManager->addScene<Scenes::TestScene>();
 
 
   application->setWindow(window);

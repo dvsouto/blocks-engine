@@ -18,26 +18,21 @@ namespace Core {
 
   void SceneManager::initialize() const {}
 
-  void SceneManager::addScene(std::shared_ptr<Graphics::Scene> scene, bool current) {
-    scenes.push_back(scene);
 
-    if (current) {
-      this->unloadScenes();
-
-      this->currentScene = scene.get();
-      this->loadScene(this->currentScene);
-    }
-  }
 
   void SceneManager::unloadScenes() const {
-    for (auto scene : scenes) {
-      scene->unload();
+    for (auto& scenePair : scenes) {
+      auto& itScene = scenePair.second;
+
+      itScene->unload();
     }
   }
 
   void SceneManager::loadScene(Graphics::Scene *scene) const {
-    scene->init();
-    scene->load();
+    if (! scene->isLoaded()) {
+      scene->init();
+      scene->load();
+    }
   }
 
   void SceneManager::renderCurrentScene() const {

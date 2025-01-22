@@ -18,11 +18,11 @@ namespace Scenes {
   void TestScene::init() {
     std::cout << "TestScene::init()" << std::endl;
 
-    auto meshLayer = std::make_shared<Layers::MeshLayer>(Layers::MeshLayer());
-    auto uiLayer = std::make_shared<Layers::UILayer>(Layers::UILayer());
+    auto meshLayer = std::make_shared<Layers::MeshLayer>();
+    auto uiLayer = std::make_shared<Layers::UILayer>();
 
-    this->addLayer(meshLayer);
-    this->addLayer(uiLayer);
+    this->layers.addLayer<Layers::MeshLayer>(meshLayer);
+    this->layers.addLayer<Layers::UILayer>(uiLayer);
 
     auto vertexColorShader = Shader("vertex_color");
     auto fragmentColorShader = Shader("fragment_color");
