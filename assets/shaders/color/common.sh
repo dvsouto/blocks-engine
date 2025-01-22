@@ -1,0 +1,1 @@
+uniform float4x4 u_modelViewProj; // Matriz de transformação modelo-visão-projeção.
