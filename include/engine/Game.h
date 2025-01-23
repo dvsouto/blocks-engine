@@ -21,7 +21,7 @@ namespace Engine {
       static Timer* timer;
 
       void run();
-      void update();
+      void update() const;
       void render() const;
 
       void pause();

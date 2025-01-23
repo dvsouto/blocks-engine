@@ -4,7 +4,7 @@
 #include <iostream>
 
 namespace Graphics {
-  class Shader;
+  class ShaderLoader;
 }
 
 namespace Graphics {
@@ -14,7 +14,7 @@ namespace Graphics {
 
     public:
       // ShaderProgram(Shader* shader);
-      ShaderProgram(Shader& vertexShader, Shader& fragmentShader);
+      ShaderProgram(ShaderLoader& vertexShader, ShaderLoader& fragmentShader);
 
       bgfx::ProgramHandle& get();
       bgfx::VertexLayout& getLayout();

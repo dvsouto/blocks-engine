@@ -1,18 +1,21 @@
 #include "include/primitive/Mesh.h"
-#include <include/primitive//VertexColor.h>
-#include <include/graphics/ShaderProgram.h>
+#include <include/primitive/VertexColor.h>
+
+#include <include/engine/Shader.h>
+
+#include "include/graphics/ShaderProgram.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
 
 namespace Primitive {
-  Mesh::Mesh(uint8_t viewId, const std::vector<VertexColor> &vertices, const std::vector<uint16_t> &indices, Graphics::ShaderProgram &shaderProgram) :
-    Renderable(viewId, vertices, indices, shaderProgram) {}
+  Mesh::Mesh(uint8_t viewId, const std::vector<VertexColor> &vertices, const std::vector<uint16_t> &indices, std::shared_ptr<Engine::Shader> shader) :
+    Renderable(viewId, vertices, indices, shader) {}
 
   void Mesh::initialize() {
     vertexBuffer = bgfx::createVertexBuffer(
       bgfx::copy(vertices.data(), sizeof(VertexColor) * vertices.size()),
-      shaderProgram.getLayout()
+      this->shader->getShaderProgram()->getLayout()
     );
 
     indexBuffer = bgfx::createIndexBuffer(

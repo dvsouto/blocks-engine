@@ -1,6 +1,7 @@
 #include "include/core/Application.h"
 #include "include/core/Renderer.h"
 #include "include/core/SceneManager.h"
+#include "include/core/ShaderManager.h"
 #include "include/core/Window.h"
 #include "include/engine/Game.h"
 
@@ -9,6 +10,7 @@ namespace Core {
   Window* Application::window = nullptr;
   Renderer* Application::renderer = nullptr;
   SceneManager* Application::sceneManager = nullptr;
+  ShaderManager* Application::shaderManager = nullptr;
   Engine::Game* Application::game = nullptr;
 
   Application::Application() {}
@@ -33,6 +35,10 @@ namespace Core {
     return sceneManager;
   }
 
+  ShaderManager* Application::getShaderManager() const {
+    return shaderManager;
+  }
+
   Engine::Game* Application::getGame() const {
     return game;
   };
@@ -47,6 +53,10 @@ namespace Core {
 
   void Application::setSceneManager(SceneManager *sceneManagerInstance) const {
     sceneManager = sceneManagerInstance;
+  }
+
+  void Application::setShaderManager(ShaderManager *shaderManagerInstance) const {
+    shaderManager = shaderManagerInstance;
   }
 
   void Application::setGame(Engine::Game *gameInstance) const {

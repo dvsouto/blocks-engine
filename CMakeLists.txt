@@ -28,6 +28,7 @@ add_module(graphics)
 add_module(layers)
 add_module(primitive)
 add_module(scenes)
+add_module(shaders)
 
 # Project libraries
 #target_link_libraries(${PROJECT_NAME} PUBLIC Core Primitive)

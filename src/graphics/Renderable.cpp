@@ -1,32 +1,36 @@
 #include "include/graphics/Renderable.h"
-#include <include/graphics/ShaderProgram.h>
+
+#include "include/engine/Shader.h"
+
 #include "include/primitive/VertexColor.h"
 
 #include <Eigen/Dense>
 #include <bgfx/bgfx.h>
+#include <include/graphics/ShaderProgram.h>
 #include <iostream>
 
 using Eigen::Matrix4f;
-using Eigen::Matrix4f;
+using Eigen::Matrix3f;
+using Eigen::Vector3;
 
 namespace Graphics {
-  Renderable::Renderable(uint8_t viewId, const std::vector<Primitive::VertexColor> &vertices, const std::vector<uint16_t>& indices, Graphics::ShaderProgram& shaderProgram) :
-    viewId(viewId), vertices(vertices), indices(indices), shaderProgram(shaderProgram), vertexBuffer(BGFX_INVALID_HANDLE), indexBuffer(BGFX_INVALID_HANDLE) {
+  Renderable::Renderable(uint8_t viewId, const std::vector<Primitive::VertexColor> &vertices, const std::vector<uint16_t>& indices, const std::shared_ptr<Engine::Shader> &shader) :
+    viewId(viewId), vertices(vertices), indices(indices), shader(shader), vertexBuffer(BGFX_INVALID_HANDLE), indexBuffer(BGFX_INVALID_HANDLE) {
   }
 
-  bool Renderable::isInitialized(){
+  bool Renderable::isInitialized() const {
     return initialized;
   };
 
-  void Renderable::setPosition(Vector3<float> position) {
+  void Renderable::setPosition(const Vector3<float> &position) {
     this->position = position;
   }
 
-  void Renderable::setRotation(Vector3<float> rotation) {
+  void Renderable::setRotation(const Vector3<float> &rotation) {
     this->rotation = rotation;
   }
 
-  void Renderable::move(Vector3<float> move) {
+  void Renderable::move(const Vector3<float> &move) {
     this->position += move;
   }
 
@@ -42,7 +46,7 @@ namespace Graphics {
     this->position[2] += z;
   }
 
-  void Renderable::rotate(Vector3<float> rotate) {
+  void Renderable::rotate(const Vector3<float> &rotate) {
     this->rotation += rotate;
   }
 
@@ -64,13 +68,13 @@ namespace Graphics {
   }
 
 
-  bool Renderable::validateDraw() {
+  bool Renderable::validateDraw() const {
     if (! initialized) {
       std::cerr << "Mesh not initialized in Mesh::draw!";
       return false;
     }
 
-    if (!bgfx::isValid(this->shaderProgram.get())) {
+    if (!bgfx::isValid(this->shader->getShaderProgram()->get())) {
       std::cerr << "Error: Invalid shader program handle in Mesh::draw!" << std::endl;
       return false;
     }
@@ -84,7 +88,7 @@ namespace Graphics {
   }
 
   void Renderable::submitDraw() const {
-    bgfx::submit(this->viewId, this->shaderProgram.get());
+    bgfx::submit(this->viewId, this->shader->getShaderProgram()->get());
   }
 
   Matrix4f Renderable::getTransformMatrix() {
@@ -96,10 +100,10 @@ namespace Graphics {
     float radianZ = this->rotation.z() * M_PI / 180.0f;
 
     // Euler angles rotation
-    Eigen::Matrix3f rotationX = Eigen::AngleAxisf(radianX, Eigen::Vector3f::UnitX()).toRotationMatrix();
-    Eigen::Matrix3f rotationY = Eigen::AngleAxisf(radianY, Eigen::Vector3f::UnitY()).toRotationMatrix();
-    Eigen::Matrix3f rotationZ = Eigen::AngleAxisf(radianZ, Eigen::Vector3f::UnitZ()).toRotationMatrix();
-    Eigen::Matrix3f rotationMatrix = rotationZ * rotationY * rotationX;
+    Matrix3f rotationX = Eigen::AngleAxisf(radianX, Eigen::Vector3f::UnitX()).toRotationMatrix();
+    Matrix3f rotationY = Eigen::AngleAxisf(radianY, Eigen::Vector3f::UnitY()).toRotationMatrix();
+    Matrix3f rotationZ = Eigen::AngleAxisf(radianZ, Eigen::Vector3f::UnitZ()).toRotationMatrix();
+    Matrix3f rotationMatrix = rotationZ * rotationY * rotationX;
 
     // Rotation
     transformMatrix.block<3, 3>(0, 0) = rotationMatrix;
@@ -119,7 +123,7 @@ namespace Graphics {
     float transformArr[16];
     std::array<float, 16> transformStdArr;
 
-    Eigen::Map<Eigen::Matrix4f>(transformArr, 4, 4) = transformMatrix;
+    Eigen::Map<Matrix4f>(transformArr, 4, 4) = transformMatrix;
 
     std::copy(std::begin(transformArr), std::end(transformArr), transformStdArr.begin());
 

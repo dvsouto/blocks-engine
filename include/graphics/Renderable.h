@@ -5,33 +5,38 @@
 
 #include <Eigen/Dense>
 #include <bgfx/bgfx.h>
+#include <include/engine/Shader.h>
 
-using Eigen::Vector3;
 using Eigen::Matrix4f;
+using Eigen::Vector3;
+
+namespace Engine {
+  struct Shader;
+}
 
 namespace Graphics {
   class ShaderProgram;
 }
 
 namespace Graphics {
-  struct Renderable : public Engine::Updatable {
-    Renderable(Graphics::ShaderProgram& shaderProgram);
+  struct Renderable : Engine::Updatable {
+    Renderable(std::shared_ptr<Engine::Shader> shader);
 
-    Renderable(uint8_t viewId, const std::vector<Primitive::VertexColor> &vertices, const std::vector<uint16_t>& indices, Graphics::ShaderProgram& shaderProgram);
-    virtual ~Renderable() = default;
+    Renderable(uint8_t viewId, const std::vector<Primitive::VertexColor> &vertices, const std::vector<uint16_t> &indices, const std::shared_ptr<Engine::Shader> &shader);
+    ~Renderable() override = default;
 
     virtual void initialize() = 0;
-    bool isInitialized();
+    bool isInitialized() const;
 
-    void setPosition(Vector3<float> position);
-    void setRotation(Vector3<float> rotation);
+    void setPosition(const Vector3<float> &position);
+    void setRotation(const Vector3<float> &rotation);
 
-    void move(Vector3<float> move);
+    void move(const Vector3<float> &move);
     void moveX(float x);
     void moveY(float y);
     void moveZ(float z);
 
-    void rotate(Vector3<float> rotate);
+    void rotate(const Vector3<float> &rotate);
     void rotateX(float x);
     void rotateY(float y);
     void rotateZ(float z);
@@ -47,7 +52,8 @@ namespace Graphics {
       std::vector<uint16_t> indices;
       bool initialized = false;
 
-      Graphics::ShaderProgram& shaderProgram;
+      std::shared_ptr<Engine::Shader> shader = nullptr;
+
       bgfx::VertexBufferHandle vertexBuffer = BGFX_INVALID_HANDLE;
       bgfx::IndexBufferHandle indexBuffer = BGFX_INVALID_HANDLE;
 
@@ -57,7 +63,7 @@ namespace Graphics {
       Matrix4f getTransformMatrix();
       std::array<float, 16> getTransformArray();
 
-      bool validateDraw();
+      bool validateDraw() const;
       void submitDraw() const;
   };
 }

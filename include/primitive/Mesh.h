@@ -1,20 +1,19 @@
 #pragma once
 
-#include <bgfx/bgfx.h>
 #include <include/graphics/Renderable.h>
 #include <iostream>
 
-namespace Graphics {
-  class ShaderProgram;
+namespace Engine {
+  class Shader;
 }
 
 namespace Primitive {
-  class VertexColor;
+  struct VertexColor;
 }
 
 namespace Primitive {
   struct Mesh : Graphics::Renderable {
-    Mesh(uint8_t viewId, const std::vector<Primitive::VertexColor> &vertices, const std::vector<uint16_t>& indices, Graphics::ShaderProgram& shaderProgram);
+    Mesh(uint8_t viewId, const std::vector<VertexColor> &vertices, const std::vector<uint16_t>& indices, std::shared_ptr<Engine::Shader> shader);
     ~Mesh() override;
 
     void initialize() override;

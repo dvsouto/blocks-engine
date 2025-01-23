@@ -1,10 +1,10 @@
-#include "include/graphics/Shader.h"
+#include "include/graphics/ShaderLoader.h"
 
 #include <bgfx/bgfx.h>
 #include <fstream>
 
 namespace Graphics {
-  std::string Shader::getType() {
+  std::string ShaderLoader::getType() const {
     std::string type;
 
     switch (bgfx::getRendererType()) {
@@ -28,18 +28,18 @@ namespace Graphics {
     return type;
   }
 
-  std::string Shader::getPlatform() {
+  std::string ShaderLoader::getPlatform() const {
     return "osx";
   }
 
-  Shader::Shader(std::string shaderName) : shaderName(shaderName) {}
+  ShaderLoader::ShaderLoader(std::string shaderName) : shaderName(shaderName) {}
 
-  bool Shader::isLoaded() {
+  bool ShaderLoader::isLoaded() const {
     return this->loaded;
   }
 
 
-  Shader* Shader::load() {
+  ShaderLoader* ShaderLoader::load() {
     std::string path = "/assets/shaders/bin/" + getPlatform() + "/" + shaderName + "." + getType() + ".bin";
 
     // @TODO fix relative path
@@ -85,11 +85,11 @@ namespace Graphics {
     return this;
   }
 
-  bgfx::ShaderHandle& Shader::get() {
+  bgfx::ShaderHandle& ShaderLoader::get() {
      return this->shaderHandle;
   }
 
-  Shader::~Shader() {
+  ShaderLoader::~ShaderLoader() {
     this->loaded = false;
 
     if (bgfx::isValid(this->shaderHandle)) {

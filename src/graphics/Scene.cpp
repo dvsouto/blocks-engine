@@ -1,9 +1,11 @@
 #include "include/graphics/Scene.h"
-#include "include/graphics/Layer.h"
+#include "include/core/Application.h"
 
 namespace Graphics {
-   Scene::Scene() : layers() {
+   Scene::Scene() : layers(), shaders(nullptr) {
      layers.initialize();
+
+     this->shaders = Core::Application::getInstance()->getShaderManager();
    }
 
   bool Scene::isLoaded() const {

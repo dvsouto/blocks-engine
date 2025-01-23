@@ -1,8 +1,11 @@
 #include "include/engine/Game.h"
 
+#include <include/core/Application.h>
+
 #include "include/core/Application.h"
 #include "include/core/Renderer.h"
 #include "include/core/SceneManager.h"
+#include "include/core/ShaderManager.h"
 #include "include/core/Window.h"
 
 #include "include/engine/Timer.h"
@@ -28,16 +31,19 @@ namespace Engine {
     auto* window = Window::getInstance();
     auto* renderer = Renderer::getInstance();
     auto* sceneManager = SceneManager::getInstance();
-
-    window->initialize();
-    renderer->initialize(window);
-    sceneManager->initialize();
-
-    sceneManager->addScene<Scenes::TestScene>();
+    auto* shaderManager = ShaderManager::getInstance();
 
     this->app->setWindow(window);
     this->app->setRenderer(renderer);
+    this->app->setShaderManager(shaderManager);
     this->app->setSceneManager(sceneManager);
+
+    window->initialize();
+    renderer->initialize(window);
+    shaderManager->initialize();
+    sceneManager->initialize();
+
+    sceneManager->addScene<Scenes::TestScene>();
 
     this->status = 1;
 
@@ -45,7 +51,7 @@ namespace Engine {
   }
 
 
-  void Game::update() {
+  void Game::update() const {
     if (this->status == 3) {
       this->app->getWindow()->close();
 

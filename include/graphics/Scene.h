@@ -4,6 +4,7 @@
 
 namespace Core {
   class LayerManager;
+  class ShaderManager;
 }
 
 namespace Graphics {
@@ -14,6 +15,7 @@ namespace Graphics {
   class Scene : public Engine::Updatable {
     public:
       Core::LayerManager layers;
+      Core::ShaderManager* shaders;
 
       Scene();
 

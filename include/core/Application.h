@@ -4,6 +4,7 @@ namespace Core {
   class Window;
   class Renderer;
   class SceneManager;
+  class ShaderManager;
 }
 
 namespace Engine {
@@ -16,6 +17,7 @@ namespace Core {
     static Window* window;
     static Renderer* renderer;
     static SceneManager* sceneManager;
+    static ShaderManager* shaderManager;
     static Engine::Game* game;
 
     Application();
@@ -27,11 +29,13 @@ namespace Core {
       Window* getWindow() const;
       Renderer* getRenderer() const;
       SceneManager* getSceneManager() const;
+      ShaderManager* getShaderManager() const;
       Engine::Game* getGame() const;
 
       void setWindow(Window* windowInstance) const;
       void setRenderer(Renderer* rendererInstance) const;
       void setSceneManager(SceneManager* sceneManagerInstance) const;
+      void setShaderManager(ShaderManager* shaderManagerInstance) const;
       void setGame(Engine::Game* gameInstance) const;
   };
 }

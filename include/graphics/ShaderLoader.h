@@ -4,20 +4,20 @@
 #include <iostream>
 
 namespace Graphics {
-  class Shader {
+  class ShaderLoader {
     std::string shaderName;
     bgfx::ShaderHandle shaderHandle{};
     bool loaded = false;
 
-    std::string getType();
-    std::string getPlatform();
+    std::string getType() const;
+    std::string getPlatform() const;
 
     public:
-      explicit Shader(std::string shaderName);
-      ~Shader();
+      explicit ShaderLoader(std::string shaderName);
+      ~ShaderLoader();
 
-      Shader* load();
-      bool isLoaded();
+      ShaderLoader* load();
+      bool isLoaded() const;
       bgfx::ShaderHandle& get();
   };
 }

@@ -1,5 +1,5 @@
 #include "include/graphics/ShaderProgram.h"
-#include "include/graphics/Shader.h"
+#include "include/graphics/ShaderLoader.h"
 
 #include <bgfx/bgfx.h>
 
@@ -8,7 +8,7 @@ namespace Graphics {
 //    this->handle = bgfx::createProgram(shader->get(), true);
 //  }
 
-  ShaderProgram::ShaderProgram(Shader& vertexShader, Shader& fragmentShader) {
+  ShaderProgram::ShaderProgram(ShaderLoader& vertexShader, ShaderLoader& fragmentShader) {
     if (! vertexShader.isLoaded()) {
       vertexShader.load();
     }
