@@ -3,6 +3,7 @@
 #include <include/core/Application.h>
 
 #include "include/core/Application.h"
+#include "include/core/Keyboard.h"
 #include "include/core/Renderer.h"
 #include "include/core/SceneManager.h"
 #include "include/core/ShaderManager.h"
@@ -29,16 +30,19 @@ namespace Engine {
 
   void Game::run() {
     auto* window = Window::getInstance();
+    auto* keyboard = Keyboard::getInstance();
     auto* renderer = Renderer::getInstance();
     auto* sceneManager = SceneManager::getInstance();
     auto* shaderManager = ShaderManager::getInstance();
 
     this->app->setWindow(window);
+    this->app->setKeyboard(keyboard);
     this->app->setRenderer(renderer);
     this->app->setShaderManager(shaderManager);
     this->app->setSceneManager(sceneManager);
 
     window->initialize();
+    keyboard->initialize();
     renderer->initialize(window);
     shaderManager->initialize();
     sceneManager->initialize();

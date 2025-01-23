@@ -5,6 +5,7 @@ namespace Core {
   class Renderer;
   class SceneManager;
   class ShaderManager;
+  class Keyboard;
 }
 
 namespace Engine {
@@ -19,6 +20,7 @@ namespace Core {
     static SceneManager* sceneManager;
     static ShaderManager* shaderManager;
     static Engine::Game* game;
+    static Keyboard* keyboard;
 
     Application();
     ~Application();
@@ -31,11 +33,13 @@ namespace Core {
       SceneManager* getSceneManager() const;
       ShaderManager* getShaderManager() const;
       Engine::Game* getGame() const;
+      Keyboard* getKeyboard() const;
 
       void setWindow(Window* windowInstance) const;
       void setRenderer(Renderer* rendererInstance) const;
       void setSceneManager(SceneManager* sceneManagerInstance) const;
       void setShaderManager(ShaderManager* shaderManagerInstance) const;
       void setGame(Engine::Game* gameInstance) const;
+      void setKeyboard(Keyboard* keyboardInstance) const;
   };
 }

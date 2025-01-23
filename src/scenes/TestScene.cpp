@@ -1,29 +1,35 @@
 #include "include/scenes/TestScene.h"
+
+#include <include/core/ShaderManager.h>
+
 #include "include/graphics/Scene.h"
 
-#include "include/graphics/ShaderLoader.h"
-#include "include/graphics/ShaderProgram.h"
+#include "include/engine/Player.h"
 
 #include "include/layers/MeshLayer.h"
 #include "include/layers/UILayer.h"
 
+#include <include/shaders/ColorShader.h>
+
 #include "include/primitive/VertexColor.h"
 #include "include/primitive/Mesh.h"
-
-#include <include/core/ShaderManager.h>
-#include <include/engine/Shader.h>
 #include <include/primitive/Color.h>
-#include <include/shaders/ColorShader.h>
+
+
 #include <iostream>
 
+using namespace Engine;
 using namespace Graphics;
 using namespace Primitive;
 using namespace Layers;
 
 using namespace std;
+
 namespace Scenes {
   void TestScene::init() {
     cout << "TestScene::init()" << endl;
+
+    this->player = std::make_shared<Player>();
 
     auto meshLayer = make_shared<MeshLayer>();
     auto uiLayer = make_shared<UILayer>();
@@ -95,6 +101,7 @@ namespace Scenes {
   }
 
   void TestScene::update(float deltaTime) {
+    this->player->update(deltaTime);
     // cout << "TestScene::update() - " << deltaTime << endl;
   };
 

@@ -1,11 +1,15 @@
 #include "include/core/Window.h"
+#include <include/core/Keyboard.h>
 #include "include/core/Renderer.h"
+#include <include/core/Application.h>
+
+#include <include/engine/Game.h>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_syswm.h>
 
-#include <include/core/Application.h>
-#include <include/engine/Game.h>
+
+
 #include <iostream>
 
 namespace Core {
@@ -49,6 +53,7 @@ namespace Core {
   void Window::run() {
     SDL_Event currentEvent;
     auto* game = Application::getInstance()->getGame();
+    auto* keyboard = Application::getInstance()->getKeyboard();
 
     while (! shouldClose) {
       while (SDL_PollEvent(&currentEvent) != 0) {
@@ -56,6 +61,10 @@ namespace Core {
           shouldClose = true;
         }
       }
+
+      const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+
+      keyboard->handle(keystates);
 
       // Call game update event
       game->update();
@@ -83,7 +92,12 @@ namespace Core {
     return wHeight;
   }
 
-  SDL_SysWMinfo Window::getInfo() {
+  float Window::getAspectRatio() const {
+    return static_cast<float>(this->wWidth) / static_cast<float>(this->wHeight);
+  }
+
+
+  SDL_SysWMinfo Window::getInfo() const {
     SDL_SysWMinfo wmi;
     SDL_VERSION(&wmi.version);
 

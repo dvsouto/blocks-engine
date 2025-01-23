@@ -12,6 +12,7 @@ namespace Core {
   SceneManager* Application::sceneManager = nullptr;
   ShaderManager* Application::shaderManager = nullptr;
   Engine::Game* Application::game = nullptr;
+  Keyboard* Application::keyboard = nullptr;
 
   Application::Application() {}
 
@@ -43,6 +44,10 @@ namespace Core {
     return game;
   };
 
+  Keyboard* Application::getKeyboard() const {
+    return keyboard;
+  };
+
   void Application::setWindow(Window* windowInstance) const {
     window = windowInstance;
   }
@@ -61,6 +66,10 @@ namespace Core {
 
   void Application::setGame(Engine::Game *gameInstance) const {
     game = gameInstance;
+  }
+
+  void Application::setKeyboard(Keyboard *keyboardInstance) const {
+    keyboard = keyboardInstance;
   }
 
   Application::~Application() {

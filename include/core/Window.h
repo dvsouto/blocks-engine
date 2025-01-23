@@ -32,7 +32,9 @@ namespace Core {
 
       int getWidth() const;
       int getHeight() const;
-      SDL_SysWMinfo getInfo();
+      float getAspectRatio() const;
+
+      SDL_SysWMinfo getInfo() const;
 
       // void poolEvents();
       // void swapBuffers();
