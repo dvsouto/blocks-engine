@@ -29,37 +29,72 @@ namespace Scenes {
 
     auto shaderProgram = new ShaderProgram(vertexColorShader, fragmentColorShader);
 
-    std::vector<Primitive::VertexColor> vertices = {
+    auto meshSquare = std::make_shared<Primitive::Mesh>(Primitive::Mesh(0, {
       {  0.5f,  0.5f, 0.0f  }, // Top-right
       {  0.5f, -0.5f, 0.0f  }, // Bottom-right
       { -0.5f, -0.5f, 0.0f }, // Bottom-left
       { -0.5f,  0.5f, 0.0f }  // Top-left
-    };
-
-    auto mesh = std::make_shared<Primitive::Mesh>(Primitive::Mesh(0, vertices, {
+    }, {
       0,1,3,
       1,2,3
     }, *shaderProgram));
 
-    auto mesht = std::make_shared<Primitive::Mesh>(Primitive::Mesh(0, vertices, {
-      0,1,3,
-      1,2,3
+    auto meshCube = std::make_shared<Primitive::Mesh>(Primitive::Mesh(0, {
+      // Front face
+    {  0.5f,  0.5f,  0.5f }, // Top-right-front
+    {  0.5f, -0.5f,  0.5f }, // Bottom-right-front
+    { -0.5f, -0.5f,  0.5f }, // Bottom-left-front
+    { -0.5f,  0.5f,  0.5f }, // Top-left-front
+
+     // Back face
+    {  0.5f,  0.5f, -0.5f }, // Top-right-back
+    {  0.5f, -0.5f, -0.5f }, // Bottom-right-back
+    { -0.5f, -0.5f, -0.5f }, // Bottom-left-back
+    { -0.5f,  0.5f, -0.5f }  // Top-left-back
+    }, {
+      // Front face
+      0, 1, 3,
+      1, 2, 3,
+
+      // Back face
+      4, 5, 7,
+      5, 6, 7,
+
+      // Left face
+      3, 2, 7,
+      2, 6, 7,
+
+      // Right face
+      0, 1, 4,
+      1, 5, 4,
+
+      // Top face
+      0, 3, 4,
+      3, 7, 4,
+
+      // Bottom face
+      1, 2, 5,
+      2, 6, 5
     }, *shaderProgram));
 
-    mesh->initialize();
-    mesh->move({1.f, 1.f, 1.f });
+    meshSquare->initialize();
+    meshSquare->move({1.f, 1.f, 1.f });
 
-    mesht->initialize();
-    mesht->move({-1.f, -1.f, -1.f});
-    mesht->rotate({45.f, 45.f, 45.f});
+    meshCube->initialize();
+    meshCube->move({-1.f, -1.f, -1.f});
+    meshCube->rotate({45.f, 45.f, 45.f});
 
-    meshLayer->add(mesh);
-    meshLayer->add(mesht);
+    meshLayer->add(meshSquare);
+    meshLayer->add(meshCube);
   };
 
   void TestScene::load() {
     Scene::load();
   }
+
+  void TestScene::update(float deltaTime) {
+    // std::cout << "TestScene::update() - " << deltaTime << std::endl;
+  };
 
   TestScene::~TestScene() {}
 }

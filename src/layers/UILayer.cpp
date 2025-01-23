@@ -9,8 +9,12 @@ namespace Layers {
   UILayer::UILayer() : Layer(VIEW_UI) {};
 
   void UILayer::render(){
-    std::cout << "UILayer::render()" << std::endl;
+    // std::cout << "UILayer::render()" << std::endl;
 
     Layer::render();
+  }
+
+  void UILayer::update(float deltaTime) {
+    Layer::update(deltaTime);
   }
 }

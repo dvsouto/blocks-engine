@@ -28,6 +28,11 @@ namespace Primitive {
     initialized = true;
   }
 
+  void Mesh::update(float deltaTime) {
+
+  }
+
+
   void Mesh::draw() {
     if (this->validateDraw()) {
       // Buffers

@@ -40,4 +40,12 @@ namespace Core {
       this->currentScene->render();
     }
   }
+
+  void SceneManager::update(float deltaTime) const {
+      if (this->currentScene != nullptr) {
+        this->currentScene->update(deltaTime);
+        this->currentScene->layers.update(deltaTime);
+      }
+  }
+
 }

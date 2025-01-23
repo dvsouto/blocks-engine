@@ -18,6 +18,7 @@ namespace Primitive {
     ~Mesh() override;
 
     void initialize() override;
+    void update(float deltaTime) override;
     void draw() override;
   };
 }

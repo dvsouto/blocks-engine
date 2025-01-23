@@ -4,6 +4,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_syswm.h>
 
+#include <include/core/Application.h>
+#include <include/engine/Game.h>
 #include <iostream>
 
 namespace Core {
@@ -46,19 +48,23 @@ namespace Core {
 
   void Window::run() {
     SDL_Event currentEvent;
-    auto* renderer = Renderer::getInstance();
+    auto* game = Application::getInstance()->getGame();
 
     while (! shouldClose) {
       while (SDL_PollEvent(&currentEvent) != 0) {
         if (currentEvent.type == SDL_QUIT) {
           shouldClose = true;
         }
-
-        // Render
-        if (renderer->isRunning()) {
-          renderer->render();
-        }
       }
+
+      // Call game update event
+      game->update();
+
+      // Call game render event
+      game->render();
+
+      // Set framerate to ~60 FPS
+      SDL_Delay(16);
     }
   }
 

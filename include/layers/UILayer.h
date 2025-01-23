@@ -7,5 +7,6 @@ namespace Layers {
     public:
       UILayer();
       void render() override;
+      void update(float deltaTime) override;
   };
 }

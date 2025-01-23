@@ -2,12 +2,14 @@
 #include "include/core/Renderer.h"
 #include "include/core/SceneManager.h"
 #include "include/core/Window.h"
+#include "include/engine/Game.h"
 
 namespace Core {
   Application* Application::instance = nullptr;
   Window* Application::window = nullptr;
   Renderer* Application::renderer = nullptr;
   SceneManager* Application::sceneManager = nullptr;
+  Engine::Game* Application::game = nullptr;
 
   Application::Application() {}
 
@@ -31,6 +33,10 @@ namespace Core {
     return sceneManager;
   }
 
+  Engine::Game* Application::getGame() const {
+    return game;
+  };
+
   void Application::setWindow(Window* windowInstance) const {
     window = windowInstance;
   }
@@ -41,6 +47,10 @@ namespace Core {
 
   void Application::setSceneManager(SceneManager *sceneManagerInstance) const {
     sceneManager = sceneManagerInstance;
+  }
+
+  void Application::setGame(Engine::Game *gameInstance) const {
+    game = gameInstance;
   }
 
   Application::~Application() {

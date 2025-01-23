@@ -9,6 +9,7 @@ namespace Scenes {
     public:
       void init() override;
       void load() override;
+      void update(float deltaTime) override;
 
       ~TestScene() override;
   };

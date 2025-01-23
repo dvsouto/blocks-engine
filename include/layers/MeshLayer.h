@@ -12,6 +12,7 @@ namespace Layers {
       MeshLayer();
 
       void render() override;
+      void update(float deltaTime) override;
 
       ~MeshLayer() override;
   };

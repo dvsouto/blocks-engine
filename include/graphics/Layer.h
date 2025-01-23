@@ -1,5 +1,7 @@
 #pragma once
 
+#include <include/engine/Updatable.h>
+
 #include <vector>
 
 namespace Graphics {
@@ -7,7 +9,7 @@ namespace Graphics {
 }
 
 namespace Graphics {
-  class Layer {
+  class Layer : public Engine::Updatable {
     protected:
       unsigned int viewId;
       bool visible = true;
@@ -17,14 +19,14 @@ namespace Graphics {
       std::vector<std::shared_ptr<Renderable>> renderables;
 
     public:
-
-      virtual ~Layer() = default;
+      ~Layer() override = default;
 
       void add(const std::shared_ptr<Renderable>& renderable);
       void remove(std::shared_ptr<Renderable>& renderable);
       int size();
 
       virtual void render();
+      void update(float deltaTime) override;
 
       bool isVisible() const;
   };

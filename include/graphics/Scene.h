@@ -1,7 +1,6 @@
 #pragma once
 
 #include <include/core/LayerManager.h>
-#include <iostream>
 
 namespace Core {
   class LayerManager;
@@ -12,18 +11,16 @@ namespace Graphics {
 }
 
 namespace Graphics {
-  class Scene {
+  class Scene : public Engine::Updatable {
     public:
       Core::LayerManager layers;
 
       Scene();
 
-      virtual ~Scene() = default;
+      ~Scene() override = default;
       virtual void init() = 0;
-      // virtual void update(float deltaTime) = 0;
-      void render() const;
 
-      // void addLayer(const std::shared_ptr<Layer> &layer);
+      void render() const;
 
       virtual void load() = 0;
       void unload();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "include/primitive/VertexColor.h"
+#include "include/engine/Updatable.h"
 
 #include <Eigen/Dense>
 #include <bgfx/bgfx.h>
@@ -13,7 +14,7 @@ namespace Graphics {
 }
 
 namespace Graphics {
-  struct Renderable {
+  struct Renderable : public Engine::Updatable {
     Renderable(Graphics::ShaderProgram& shaderProgram);
 
     Renderable(uint8_t viewId, const std::vector<Primitive::VertexColor> &vertices, const std::vector<uint16_t>& indices, Graphics::ShaderProgram& shaderProgram);

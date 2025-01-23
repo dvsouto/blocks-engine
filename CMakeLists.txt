@@ -23,6 +23,7 @@ add_executable(${PROJECT_NAME} main.cpp)
 
 # Add project modules
 add_module(core)
+add_module(engine)
 add_module(graphics)
 add_module(layers)
 add_module(primitive)

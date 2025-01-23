@@ -31,4 +31,10 @@ namespace Graphics {
       renderable->draw();
     }
   }
+
+  void Layer::update(float deltaTime) {
+    for (const auto& renderable : this->renderables) {
+      renderable->update(deltaTime);
+    }
+  }
 }

@@ -31,6 +31,7 @@ namespace Core {
       void setCurrentScene();
 
       void renderCurrentScene() const;
+      void update(float deltaTime) const;
   };
 }
 

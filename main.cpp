@@ -1,30 +1,11 @@
-#include "include/core/Application.h"
-#include "include/core/Renderer.h"
-#include "include/core/SceneManager.h"
-#include "include/core/Window.h"
+#include <include/engine/Game.h>
 
-#include <include/scenes/TestScene.h>
-
-using namespace Core;
+using namespace Engine;
 
 int main() {
-  auto* application = Application::getInstance();
-  auto* window = Window::getInstance();
-  auto* renderer = Renderer::getInstance();
-  auto* sceneManager = SceneManager::getInstance();
+  Game gameApp = Game();
 
-  window->initialize();
-  renderer->initialize(window);
-  sceneManager->initialize();
-
-  sceneManager->addScene<Scenes::TestScene>();
-
-
-  application->setWindow(window);
-  application->setRenderer(renderer);
-  application->setSceneManager(sceneManager);
-
-  window->run();
+  gameApp.run();
 
   return 0;
 }

@@ -27,6 +27,7 @@ namespace Core {
     std::shared_ptr<T> getLayer();
 
     void renderLayers() const;
+    void update(float deltaTime) const;
   };
 }
 
