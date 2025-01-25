@@ -11,6 +11,7 @@
 #include "include/engine/Timer.h"
 
 #include <include/scenes/TestScene.h>
+#include <include/scenes/AnotherScene.h>
 
 using namespace Core;
 
@@ -50,6 +51,7 @@ namespace Engine {
     shaderManager->initialize();
     sceneManager->initialize();
 
+    sceneManager->addScene<Scenes::AnotherScene>();
     sceneManager->addScene<Scenes::TestScene>();
 
     this->status = 1;

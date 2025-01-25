@@ -1,6 +1,7 @@
 #include "include/scenes/TestScene.h"
 
-#include <include/core/ShaderManager.h>
+#include <include/core/Mouse.h>
+#include <include/core/SceneManager.h>
 #include <include/core/EntityManager.h>
 
 #include "include/graphics/Scene.h"
@@ -13,7 +14,7 @@
 #include "include/primitive/Cube.h"
 #include "include/primitive/Plane.h"
 
-#include <include/core/Mouse.h>
+#include <include/scenes/AnotherScene.h>
 #include <iostream>
 
 using namespace Engine;
@@ -73,6 +74,10 @@ namespace Scenes {
   void TestScene::onKeyUp(SDL_Keycode key) {
     if (key == SDLK_ESCAPE) {
       this->app->getMouse()->toggleVisibility();
+    }
+
+    if (key == SDLK_2) {
+      this->app->getSceneManager()->setCurrentScene<Scenes::AnotherScene>();
     }
   }
 
