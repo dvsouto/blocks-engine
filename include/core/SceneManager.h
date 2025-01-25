@@ -60,7 +60,7 @@ namespace Core {
     auto itSceneIdx = std::type_index(typeid(T));
     auto itScene = this->scenes.find(itSceneIdx);
 
-    if (itScene == this->scenes.end()) {
+    if (itScene != this->scenes.end()) {
       currentScene = itScene->second.get();
 
       this->loadScene(this->currentScene);
