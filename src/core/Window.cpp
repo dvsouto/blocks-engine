@@ -1,5 +1,6 @@
 #include "include/core/Window.h"
 #include <include/core/Keyboard.h>
+#include <include/core/Mouse.h>
 #include "include/core/Renderer.h"
 #include <include/core/Application.h>
 
@@ -7,8 +8,6 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_syswm.h>
-
-
 
 #include <iostream>
 
@@ -54,23 +53,43 @@ namespace Core {
     SDL_Event currentEvent;
     auto* game = Application::getInstance()->getGame();
     auto* keyboard = Application::getInstance()->getKeyboard();
+    auto* mouse = Application::getInstance()->getMouse();
 
     while (! shouldClose) {
       while (SDL_PollEvent(&currentEvent) != 0) {
         if (currentEvent.type == SDL_QUIT) {
           shouldClose = true;
         }
+
+        // Get mouse event
+        if (currentEvent.type == SDL_MOUSEMOTION) {
+          mouse->handleMouseMove(currentEvent.motion.xrel, currentEvent.motion.yrel);
+        }
+
+        // Key down event
+        if (currentEvent.type == SDL_KEYDOWN) {
+          keyboard->handleKeyDown(currentEvent.key.keysym.sym);
+        }
+
+        // Key up event
+        if (currentEvent.type == SDL_KEYUP) {
+          keyboard->handleKeyUp(currentEvent.key.keysym.sym);
+        }
       }
 
       const Uint8* keystates = SDL_GetKeyboardState(nullptr);
 
-      keyboard->handle(keystates);
+      // Call keyboard handle
+      keyboard->handleKeyPress(keystates);
 
       // Call game update event
       game->update();
 
       // Call game render event
       game->render();
+
+      // Reset mouse values
+      mouse->reset();
 
       // Set framerate to ~60 FPS
       SDL_Delay(16);
@@ -94,6 +113,11 @@ namespace Core {
 
   float Window::getAspectRatio() const {
     return static_cast<float>(this->wWidth) / static_cast<float>(this->wHeight);
+  }
+
+  void Window::setCursorVisibility(bool visible) const {
+    SDL_SetRelativeMouseMode(visible ? SDL_FALSE : SDL_TRUE);
+    SDL_ShowCursor(visible ? SDL_ENABLE : SDL_DISABLE);
   }
 
 

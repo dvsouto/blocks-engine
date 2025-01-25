@@ -6,11 +6,15 @@ namespace Core {
   class SceneManager;
   class ShaderManager;
   class Keyboard;
+  class Mouse;
 }
 
 namespace Engine {
   class Game;
+  class Timer;
 }
+
+using namespace Engine;
 
 namespace Core {
   class Application {
@@ -19,8 +23,10 @@ namespace Core {
     static Renderer* renderer;
     static SceneManager* sceneManager;
     static ShaderManager* shaderManager;
-    static Engine::Game* game;
+    static Game* game;
     static Keyboard* keyboard;
+    static Mouse* mouse;
+    static Timer* timer;
 
     Application();
     ~Application();
@@ -32,14 +38,18 @@ namespace Core {
       Renderer* getRenderer() const;
       SceneManager* getSceneManager() const;
       ShaderManager* getShaderManager() const;
-      Engine::Game* getGame() const;
+      Game* getGame() const;
       Keyboard* getKeyboard() const;
+      Mouse* getMouse() const;
+      Timer* getTimer() const;
 
       void setWindow(Window* windowInstance) const;
       void setRenderer(Renderer* rendererInstance) const;
       void setSceneManager(SceneManager* sceneManagerInstance) const;
       void setShaderManager(ShaderManager* shaderManagerInstance) const;
-      void setGame(Engine::Game* gameInstance) const;
+      void setGame(Game* gameInstance) const;
       void setKeyboard(Keyboard* keyboardInstance) const;
+      void setMouse(Mouse* mouseInstance) const;
+      void setTimer(Timer* timerInstance) const;
   };
 }

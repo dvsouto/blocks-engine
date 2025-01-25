@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL2/SDL_keycode.h>
 #include <iostream>
 #include <typeindex>
 
@@ -32,6 +33,11 @@ namespace Core {
 
       void renderCurrentScene() const;
       void update(float deltaTime) const;
+
+      void handleMouseMove(int x, int y) const;
+      void handleKeyUp(SDL_Keycode key) const;
+      void handleKeyDown(SDL_Keycode key) const;
+      void handleKeyPress(const Uint8* currentKeystate) const;
   };
 }
 
@@ -63,6 +69,5 @@ namespace Core {
     }
 
     currentScene = nullptr;
-
   }
 }

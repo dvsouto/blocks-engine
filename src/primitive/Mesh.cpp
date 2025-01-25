@@ -1,6 +1,7 @@
 #include "include/primitive/Mesh.h"
 #include <include/primitive/VertexColor.h>
 
+#include <include/engine/Entity.h>
 #include <include/engine/Shader.h>
 
 #include "include/graphics/ShaderProgram.h"
@@ -9,10 +10,11 @@
 #include <bx/math.h>
 
 namespace Primitive {
+  Mesh::Mesh() {}
   Mesh::Mesh(uint8_t viewId, const std::vector<VertexColor> &vertices, const std::vector<uint16_t> &indices, std::shared_ptr<Engine::Shader> shader) :
     Renderable(viewId, vertices, indices, shader) {}
 
-  void Mesh::initialize() {
+  void Mesh::initialize(Engine::Entity* entity) {
     vertexBuffer = bgfx::createVertexBuffer(
       bgfx::copy(vertices.data(), sizeof(VertexColor) * vertices.size()),
       this->shader->getShaderProgram()->getLayout()
@@ -28,13 +30,10 @@ namespace Primitive {
       return;
     }
 
+    this->entity = entity;
+
     initialized = true;
   }
-
-  void Mesh::update(float deltaTime) {
-
-  }
-
 
   void Mesh::draw() {
     if (this->validateDraw()) {
@@ -43,9 +42,8 @@ namespace Primitive {
       bgfx::setIndexBuffer(this->indexBuffer);
 
       // Get model transform
-      Matrix4f transformMatrix = this->getTransformMatrix();
       float transform[16];
-      Eigen::Map<Matrix4f>(transform, 4, 4) = transformMatrix;
+      Eigen::Map<Matrix4f>(transform, 4, 4) = this->entity->getTransformMatrix();
 
       // Set model matrix for rendering
       bgfx::setTransform(transform, 1);

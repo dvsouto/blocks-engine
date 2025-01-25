@@ -14,6 +14,8 @@ namespace Scenes {
       void load() override;
       void update(float deltaTime) override;
 
+      void onKeyUp(SDL_Keycode key) override;
+
       ~TestScene() override;
   };
 }

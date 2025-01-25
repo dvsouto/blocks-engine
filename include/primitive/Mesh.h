@@ -1,10 +1,11 @@
 #pragma once
 
-#include <include/graphics/Renderable.h>
+#include <include/engine/Renderable.h>
 #include <iostream>
 
 namespace Engine {
-  class Shader;
+  struct Shader;
+  class Entity;
 }
 
 namespace Primitive {
@@ -12,12 +13,12 @@ namespace Primitive {
 }
 
 namespace Primitive {
-  struct Mesh : Graphics::Renderable {
+  struct Mesh : Engine::Renderable {
+    Mesh();
     Mesh(uint8_t viewId, const std::vector<VertexColor> &vertices, const std::vector<uint16_t>& indices, std::shared_ptr<Engine::Shader> shader);
     ~Mesh() override;
 
-    void initialize() override;
-    void update(float deltaTime) override;
+    void initialize(Engine::Entity* entity) override;
     void draw() override;
   };
 }

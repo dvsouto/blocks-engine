@@ -34,6 +34,8 @@ namespace Core {
       int getHeight() const;
       float getAspectRatio() const;
 
+      void setCursorVisibility(bool visible) const;
+
       SDL_SysWMinfo getInfo() const;
 
       // void poolEvents();

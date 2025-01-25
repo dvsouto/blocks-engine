@@ -1,6 +1,7 @@
 #include "include/scenes/TestScene.h"
 
 #include <include/core/ShaderManager.h>
+#include <include/core/EntityManager.h>
 
 #include "include/graphics/Scene.h"
 
@@ -9,13 +10,10 @@
 #include "include/layers/MeshLayer.h"
 #include "include/layers/UILayer.h"
 
-#include <include/shaders/ColorShader.h>
+#include "include/primitive/Cube.h"
+#include "include/primitive/Plane.h"
 
-#include "include/primitive/VertexColor.h"
-#include "include/primitive/Mesh.h"
-#include <include/primitive/Color.h>
-
-
+#include <include/core/Mouse.h>
 #include <iostream>
 
 using namespace Engine;
@@ -29,71 +27,33 @@ namespace Scenes {
   void TestScene::init() {
     cout << "TestScene::init()" << endl;
 
+    this->layers->create<MeshLayer>();
+    this->layers->create<UILayer>();
+
     this->player = std::make_shared<Player>();
 
-    auto meshLayer = make_shared<MeshLayer>();
-    auto uiLayer = make_shared<UILayer>();
+    auto cube = std::make_shared<Cube>();
+    auto anotherCube = std::make_shared<Cube>();
+    auto plane = std::make_shared<Plane>();
 
-    this->layers.addLayer<MeshLayer>(meshLayer);
-    this->layers.addLayer<UILayer>(uiLayer);
+    plane->setScale({ 10.f, 10.f, 10.f });
 
-    auto meshSquare = make_shared<Mesh>(Mesh(0, {
-      {  0.5f,  0.5f, 0.0f  }, // Top-right
-      {  0.5f, -0.5f, 0.0f  }, // Bottom-right
-      { -0.5f, -0.5f, 0.0f }, // Bottom-left
-      { -0.5f,  0.5f, 0.0f }  // Top-left
-    }, {
-      0,1,3,
-      1,2,3
-    }, this->shaders->use<Shaders::ColorShader>()));
+    cube->moveX(1.5f);
+    cube->moveY(2.5f);
+    cube->moveZ(3.5f);
 
-    auto meshCube = make_shared<Mesh>(Mesh(0, {
-      // Front face
-    {  0.5f,  0.5f,  0.5f, Color(0, 0, 255 ) }, // Top-right-front
-    {  0.5f, -0.5f,  0.5f, Color(0, 255, 0 ) }, // Bottom-right-front
-    { -0.5f, -0.5f,  0.5f, Color(255, 0, 0 ) }, // Bottom-left-front
-    { -0.5f,  0.5f,  0.5f, Color(0, 255, 255 ) }, // Top-left-front
+    anotherCube->moveY(0.5f);
 
-     // Back face
-    {  0.5f,  0.5f, -0.5f, Color(0, 0, 255) }, // Top-right-back
-    {  0.5f, -0.5f, -0.5f, Color(0, 255, 0 ) }, // Bottom-right-back
-    { -0.5f, -0.5f, -0.5f, Color(255, 0, 0 ) }, // Bottom-left-back
-    { -0.5f,  0.5f, -0.5f, Color(0, 255, 255 ) }  // Top-left-back
-    }, {
-      // Front face
-      0, 1, 3,
-      1, 2, 3,
+    // anotherCube->moveX(-2.5f);
+    // anotherCube->moveY(-5.f);
+    // anotherCube->moveZ(-7.5f);
 
-      // Back face
-      4, 5, 7,
-      5, 6, 7,
+    this->layers->use<MeshLayer>()->entities->add(this->player);
+    this->layers->use<MeshLayer>()->entities->add(cube);
+    this->layers->use<MeshLayer>()->entities->add(anotherCube);
+    this->layers->use<MeshLayer>()->entities->add(plane);
 
-      // Left face
-      3, 2, 7,
-      2, 6, 7,
-
-      // Right face
-      0, 1, 4,
-      1, 5, 4,
-
-      // Top face
-      0, 3, 4,
-      3, 7, 4,
-
-      // Bottom face
-      1, 2, 5,
-      2, 6, 5
-    }, this->shaders->use<Shaders::ColorShader>()));
-
-    meshSquare->initialize();
-    meshSquare->move({1.f, 1.f, 1.f });
-
-    meshCube->initialize();
-    meshCube->move({-1.f, -1.f, -1.f});
-    meshCube->rotate({45.f, 45.f, 45.f});
-
-    meshLayer->add(meshSquare);
-    meshLayer->add(meshCube);
+    this->app->getMouse()->hide();
   };
 
   void TestScene::load() {
@@ -101,9 +61,21 @@ namespace Scenes {
   }
 
   void TestScene::update(float deltaTime) {
-    this->player->update(deltaTime);
-    // cout << "TestScene::update() - " << deltaTime << endl;
+    // for (const auto& entity : *this->layers->use<MeshLayer>()->entities->all()) {
+    //   if (entity->isRenderable()) {
+    //     entity->rotateX(7.5f * deltaTime);
+    //     entity->rotateY(8.5f * deltaTime);
+    //     entity->rotateZ(9.5f * deltaTime);
+    //   }
+    // }
   };
+
+  void TestScene::onKeyUp(SDL_Keycode key) {
+    if (key == SDLK_ESCAPE) {
+      this->app->getMouse()->toggleVisibility();
+    }
+  }
+
 
   TestScene::~TestScene() {}
 }

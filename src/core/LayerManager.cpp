@@ -32,4 +32,57 @@ namespace Core {
     }
   }
 
+  void LayerManager::handleKeyDown(SDL_Keycode key) const {
+    for(const auto& layerPair : this->layers) {
+      auto& itLayer = layerPair.second;
+
+      if (! itLayer->isVisible()) {
+        continue;
+      }
+
+      itLayer->handleKeyDown(key);
+      itLayer->onKeyDown(key);
+    }
+  }
+
+  void LayerManager::handleKeyUp(SDL_Keycode key) const {
+    for(const auto& layerPair : this->layers) {
+      auto& itLayer = layerPair.second;
+
+      if (! itLayer->isVisible()) {
+        continue;
+      }
+
+      itLayer->handleKeyUp(key);
+      itLayer->onKeyUp(key);
+    }
+  }
+
+  void LayerManager::handleKeyPress(const Uint8* currentKeystate) const {
+    for(const auto& layerPair : this->layers) {
+      auto& itLayer = layerPair.second;
+
+      if (! itLayer->isVisible()) {
+        continue;
+      }
+
+      itLayer->handleKeyPress(currentKeystate);
+      itLayer->onKeyPress(currentKeystate);
+    }
+  }
+
+  void LayerManager::handleMouseMove(int x, int y) const {
+    for(const auto& layerPair : this->layers) {
+      auto& itLayer = layerPair.second;
+
+      if (! itLayer->isVisible()) {
+        continue;
+      }
+
+      itLayer->handleMouseMove(x, y);
+      itLayer->onMouseMove(x, y);
+    }
+  }
+
+
 }

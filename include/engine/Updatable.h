@@ -1,8 +1,16 @@
 #pragma once
 
 namespace Engine {
+  class Timer;
+}
+
+namespace Engine {
   struct Updatable {
-    virtual void update(float deltaTime) = 0;
+    Timer* timer = nullptr;
+
+    Updatable();
+
+    virtual void update(float deltaTime){};
     virtual ~Updatable() = default;
   };
 }

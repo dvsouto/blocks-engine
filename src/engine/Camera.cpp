@@ -1,4 +1,7 @@
 #include "include/engine/Camera.h"
+
+#include <iostream>
+
 #include "include/layers/Views.h"
 
 #include <bx/math.h>
@@ -28,12 +31,21 @@ namespace Engine {
       {up.x(), up.y(), up.z()});
   }
 
-  void Camera::updateView(const Vector3f& playerPosition, const Vector3f& offset, const Vector3f& targetOffset, const Vector3f& up) {
-    const Vector3f eye = playerPosition + offset;
-    const Vector3f target = playerPosition + targetOffset;
+  void Camera::updateView(const Vector3f& playerPosition, const Vector3f& playerRotation, const Vector3f& offset, const Vector3f& up) {
+    bx::Vec3 front{0.0f};
 
-    // const auto eye = Vector3f(playerPosition.x() + offset.x(), playerPosition.y() + offset.y(), playerPosition.z() + offset.z());
-    // const auto target = Vector3f(playerPosition.x() + targetOffset.x(), playerPosition.y() + targetOffset.y(), playerPosition.z() + targetOffset.z);
+    // front.x = cos(bx::toRad(playerRotation.y())) * cos(bx::toRad(playerRotation.x()));
+    // front.y = sin(bx::toRad(playerRotation.x()));
+    // front.z = sin(bx::toRad(playerRotation.y())) * cos(bx::toRad(playerRotation.x()));
+    front.x = sin(bx::toRad(playerRotation.y())) * cos(bx::toRad(playerRotation.x()));
+    front.y = sin(bx::toRad(playerRotation.x()));
+    front.z = cos(bx::toRad(playerRotation.y())) * cos(bx::toRad(playerRotation.x()));
+
+    bx::Vec3 directionBx = bx::normalize(front);
+    Vector3f direction{ directionBx.x, directionBx.y, directionBx.z };
+
+    const Vector3f eye = playerPosition + offset;
+    const Vector3f target = eye + direction;
 
     this->setView(eye, target, up);
   }

@@ -2,6 +2,7 @@
 
 #include <include/graphics/Layer.h>
 
+#include <SDL2/SDL_keycode.h>
 #include <iostream>
 #include <typeindex>
 
@@ -21,26 +22,44 @@ namespace Core {
     void initialize();
 
     template<typename T>
-    void addLayer(std::shared_ptr<T> layer);
+    void add(std::shared_ptr<T> layer);
+
+    template<typename T, typename... Args>
+    std::shared_ptr<T> create(Args&&... args);
 
     template<typename T>
-    std::shared_ptr<T> getLayer();
+    std::shared_ptr<T> use();
 
     void renderLayers() const;
     void update(float deltaTime) const;
+
+    void handleKeyDown(SDL_Keycode key) const;
+    void handleKeyUp(SDL_Keycode key) const;
+    void handleKeyPress(const Uint8* currentKeystate) const;
+    void handleMouseMove(int x, int y) const;
   };
 }
 
 namespace Core {
   template<typename T>
-  void LayerManager::addLayer(std::shared_ptr<T> layer) {
+  void LayerManager::add(std::shared_ptr<T> layer) {
     auto itLayerIdx = std::type_index(typeid(T));
 
     this->layers.insert(std::make_pair(itLayerIdx, layer));
   }
 
+  template<typename T, typename... Args>
+  std::shared_ptr<T> LayerManager::create(Args&&... args) {
+    auto itLayer = std::make_shared<T>(std::forward<Args>(args)...);
+    auto itLayerIdx = std::type_index(typeid(T));
+
+    this->layers.insert(std::make_pair(itLayerIdx, itLayer));
+
+    return itLayer;
+  }
+
   template<typename T>
-  std::shared_ptr<T> LayerManager::getLayer() {
+  std::shared_ptr<T> LayerManager::use() {
     auto it = this->layers.find(typeid(T));
 
     if (it != this->layers.end()) {

@@ -2,10 +2,12 @@
 #include "include/core/Application.h"
 
 namespace Graphics {
-   Scene::Scene() : layers(), shaders(nullptr) {
-     layers.initialize();
+   Scene::Scene() : layers(nullptr), shaders(nullptr) {
+     this->layers = new LayerManager();
+     this->layers->initialize();
 
      this->shaders = Core::Application::getInstance()->getShaderManager();
+     this->app = Core::Application::getInstance();
    }
 
   bool Scene::isLoaded() const {
@@ -22,11 +24,7 @@ namespace Graphics {
     this->loaded = false;
   }
 
-  // void Scene::addLayer(const std::shared_ptr<Layer> &layer) {
-  //   this->layers.push_back(layer);
-  // }
-
   void Scene::render() const {
-    this->layers.renderLayers();
+    this->layers->renderLayers();
   }
 }

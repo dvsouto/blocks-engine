@@ -3,7 +3,13 @@
 #include "include/core/SceneManager.h"
 #include "include/core/ShaderManager.h"
 #include "include/core/Window.h"
+#include "include/core/Keyboard.h"
+#include "include/core/Mouse.h"
+
 #include "include/engine/Game.h"
+#include "include/engine/Timer.h"
+
+using namespace Engine;
 
 namespace Core {
   Application* Application::instance = nullptr;
@@ -11,8 +17,10 @@ namespace Core {
   Renderer* Application::renderer = nullptr;
   SceneManager* Application::sceneManager = nullptr;
   ShaderManager* Application::shaderManager = nullptr;
-  Engine::Game* Application::game = nullptr;
+  Game* Application::game = nullptr;
   Keyboard* Application::keyboard = nullptr;
+  Mouse* Application::mouse = nullptr;
+  Timer* Application::timer = nullptr;
 
   Application::Application() {}
 
@@ -40,12 +48,20 @@ namespace Core {
     return shaderManager;
   }
 
-  Engine::Game* Application::getGame() const {
+  Game* Application::getGame() const {
     return game;
   };
 
   Keyboard* Application::getKeyboard() const {
     return keyboard;
+  };
+
+  Mouse* Application::getMouse() const {
+    return mouse;
+  };
+
+  Timer* Application::getTimer() const {
+    return timer;
   };
 
   void Application::setWindow(Window* windowInstance) const {
@@ -64,12 +80,20 @@ namespace Core {
     shaderManager = shaderManagerInstance;
   }
 
-  void Application::setGame(Engine::Game *gameInstance) const {
+  void Application::setGame(Game *gameInstance) const {
     game = gameInstance;
   }
 
   void Application::setKeyboard(Keyboard *keyboardInstance) const {
     keyboard = keyboardInstance;
+  }
+
+  void Application::setMouse(Mouse *mouseInstance) const {
+    mouse = mouseInstance;
+  }
+
+  void Application::setTimer(Timer *timerInstance) const {
+    timer = timerInstance;
   }
 
   Application::~Application() {

@@ -42,10 +42,39 @@ namespace Core {
   }
 
   void SceneManager::update(float deltaTime) const {
-      if (this->currentScene != nullptr) {
-        this->currentScene->update(deltaTime);
-        this->currentScene->layers.update(deltaTime);
-      }
+    if (this->currentScene != nullptr) {
+      this->currentScene->update(deltaTime);
+      this->currentScene->layers->update(deltaTime);
+    }
   }
+
+  void SceneManager::handleMouseMove(int x, int y) const {
+    if (this->currentScene != nullptr) {
+      this->currentScene->onMouseMove(x, y);
+      this->currentScene->layers->handleMouseMove(x, y);
+    }
+  }
+
+  void SceneManager::handleKeyUp(SDL_Keycode key) const {
+    if (this->currentScene != nullptr) {
+      this->currentScene->onKeyUp(key);
+      this->currentScene->layers->handleKeyUp(key);
+    }
+  }
+
+  void SceneManager::handleKeyDown(SDL_Keycode key) const {
+    if (this->currentScene != nullptr) {
+      this->currentScene->onKeyDown(key);
+      this->currentScene->layers->handleKeyDown(key);
+    }
+  }
+
+  void SceneManager::handleKeyPress(const Uint8* currentKeystate) const {
+    if (this->currentScene != nullptr) {
+      this->currentScene->onKeyPress(currentKeystate);
+      this->currentScene->layers->handleKeyPress(currentKeystate);
+    }
+  }
+
 
 }

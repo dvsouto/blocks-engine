@@ -1,9 +1,11 @@
 #pragma once
 
-#include <unordered_map>
-#include <string>
-
+#include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_scancode.h>
+
+namespace Core {
+  class Application;
+}
 
 namespace Core {
 //  struct Key {
@@ -13,6 +15,8 @@ namespace Core {
 
   class Keyboard {
     static Keyboard* instance;
+    Application* app = nullptr;
+
 
     Keyboard();
     ~Keyboard();
@@ -26,7 +30,10 @@ namespace Core {
     public:
       static Keyboard* getInstance();
 
-      void handle(const Uint8* currentKeystate);
+      void handleKeyPress(const Uint8* currentKeystate);
+      void handleKeyUp(SDL_Keycode key) const;
+      void handleKeyDown(SDL_Keycode key) const;
+
       void initialize();
       bool isKeyPressed(Uint8 keycode) const;
   };

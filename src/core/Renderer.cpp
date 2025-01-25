@@ -50,6 +50,9 @@ namespace Core {
     bgfx::reset(rWidth, rHeight, BGFX_RESET_VSYNC);
     bgfx::setDebug(BGFX_DEBUG_TEXT);
     bgfx::setViewMode(0, bgfx::ViewMode::Sequential);
+    // bgfx::setState(0 | BGFX_STATE_DEPTH_TEST_ALWAYS);
+    // bgfx::setState(BGFX_STATE_DEFAULT | BGFX_STATE_CULL_CW); // Culling clockwise (CW) faces
+    bgfx::setState(BGFX_STATE_DEFAULT | BGFX_STATE_CULL_CCW); // Culling counter-clockwise (CCW) faces
 
     this->sceneManager = SceneManager::getInstance();
 
